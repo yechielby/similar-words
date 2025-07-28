@@ -185,3 +185,168 @@ When you're done working, deactivate the virtual environment:
 ```bash
 deactivate
 ```
+
+## CLI Tool (Bonus)
+
+The project includes a command-line interface for easy interaction with the API.
+
+### CLI Installation
+
+The CLI tool requires the `requests` package, which is included in the requirements.txt:
+```bash
+pip install -r requirements.txt
+```
+
+### CLI Usage
+
+#### Interactive Mode (Recommended)
+Start the interactive mode for a user-friendly experience:
+```bash
+python cli.py interactive
+```
+
+**Interactive Mode Commands:**
+- `find <word>` - Find similar words (anagrams)
+- `add <word>` - Add a new word to the database
+- `stats` - Show API statistics
+- `help` - Show available commands
+- `quit` or `exit` - Exit the CLI
+
+#### Direct Commands
+You can also run commands directly from the terminal:
+
+**Find Similar Words:**
+```bash
+python cli.py find listen
+```
+
+**Add New Word:**
+```bash
+python cli.py add example
+```
+
+**Get Statistics:**
+```bash
+python cli.py stats
+```
+
+**Get Filtered Statistics:**
+```bash
+# Filter by date range
+python cli.py stats --from 2025-07-01T00:00:00 --to 2025-09-01T00:00:00
+
+# Filter by endpoint
+python cli.py stats --endpoint /api/v1/similar
+
+# Combined filters
+python cli.py stats --from 2025-07-01T00:00:00 --to 2025-09-01T00:00:00 --endpoint /api/v1/similar
+```
+
+### CLI Examples
+
+#### Interactive Session Example:
+```bash
+$ python cli.py interactive
+
+🔤 Similar Words API - Interactive Mode
+========================================
+Commands:
+  1. find <word>     - Find similar words
+  2. add <word>      - Add new word
+  3. stats           - Show statistics
+  4. help            - Show this help
+  5. quit            - Exit
+========================================
+
+> find listen
+✅ Similar words to 'listen':
+  1. silent
+  2. enlist
+  3. tinsel
+
+> add newword
+✅ 'newword' added successfully!
+
+> find newword
+📝 No similar words found for 'newword'
+
+> add drowwen
+✅ 'drowwen' added successfully!
+
+> find newword
+✅ Similar words to 'newword':
+  1. drowwen
+
+> stats
+📊 API Statistics:
+  Total Words: 1,502
+  Total Requests: 3
+  Avg Processing Time: 0.45 microseconds
+
+> quit
+👋 Goodbye!
+```
+
+#### Direct Commands Examples:
+```bash
+# Find anagrams
+$ python cli.py find listen
+✅ Similar words to 'listen':
+  1. silent
+  2. enlist
+  3. tinsel
+
+# Add word that already exists
+$ python cli.py add listen
+❌ Error: 'listen' already exists in the database.
+
+# Add invalid word
+$ python cli.py add test123
+❌ Error: Invalid word – must contain only letters
+
+# Word not found
+$ python cli.py find xyz123
+❌ Error: 'xyz123' not found in the database.
+
+# Statistics with filters
+$ python cli.py stats --endpoint /api/v1/similar
+📊 API Statistics:
+  Total Words: 1,500
+  Total Requests: 125
+  Avg Processing Time: 0.42 microseconds
+
+🔍 Filters applied:
+  Endpoint: /api/v1/similar
+```
+
+### CLI Help
+Get help for any command:
+```bash
+# General help
+python cli.py --help
+
+# Help for specific command
+python cli.py stats --help
+python cli.py find --help
+python cli.py add --help
+```
+
+### CLI Error Handling
+The CLI handles various error scenarios gracefully:
+
+- **Server not running**: Provides clear instructions to start the server
+- **Invalid words**: Shows validation error messages
+- **Network errors**: Displays connection error information
+- **API errors**: Shows detailed error messages from the server
+
+### Prerequisites for CLI
+1. **API Server Running**: Make sure the FastAPI server is running:
+   ```bash
+   uvicorn main:app --reload
+   ```
+2. **Dependencies Installed**: Install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+The CLI tool provides a convenient way to test and interact with the Similar Words API without needing to use curl or a web browser!

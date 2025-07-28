@@ -95,8 +95,9 @@ def get_similar(word: str):
     if word not in similar_words:
         raise HTTPException(status_code=400, detail=f"'{word}' not found in the database.")
 
-    similar_words.remove(word)
-    return SimilarWordsResponse(similar=similar_words)
+    # צור עותק של הרשימה ללא המילה עצמה
+    result_words = [w for w in similar_words if w != word]
+    return SimilarWordsResponse(similar=result_words)
 
 
 
@@ -134,7 +135,7 @@ def get_stats(
     )
 
 
+
 print("API is running...")
 init_dictionaries()
 print("Init dictionaries set from file.")
-
