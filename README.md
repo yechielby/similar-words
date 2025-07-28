@@ -19,7 +19,8 @@ A FastAPI-based web service that finds similar words (anagrams) by analyzing cha
 
 1. **Clone or download the project**
    ```bash
-   cd my_similar_project
+   git clone https://github.com/yechielby/similar-words.git
+   cd similar-words
    ```
 
 2. **Create a virtual environment**
